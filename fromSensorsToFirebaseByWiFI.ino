@@ -1,3 +1,10 @@
+/*
+  Questo sketch legge i dati dei sensori e li scrive su un Database Firebase real-time via WIFI  
+  sensore di temperatura collegato a A1
+  sensore di umidità del terreno collegato a A0
+  
+ */
+
 #include <WiFiS3.h>
 #include <ArduinoHttpClient.h>
 #include <ArduinoJson.h>
