@@ -11,12 +11,12 @@ void readSensors();
 
 
 // ====== IMPOSTAZIONI UTENTE ======
+//WIFI SCUOLA: DA CAMBIARE CON I DATI DEL WIFI UTILIZZATO
 #define WIFI_SSID "Galilei TEST"
 #define WIFI_PASSWORD "Coniglio21"
 
 
-//#define WIFI_SSID  "TIM-35780934"
-//#define WIFI_PASSWORD "3E5p6TYtDG3Zftk5qeb4HyXe"
+
 #define DATABASE_HOST "lostinrome-sensori-default-rtdb.firebaseio.com"
 
 
