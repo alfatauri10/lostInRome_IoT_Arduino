@@ -72,8 +72,8 @@ void loop() {
         previousMillis = currentMillis;
 
         // Uncomment lines below to include your sensor readings
-        variableValues[0] = analogRead(A0); // soul umidity
-        variableValues[1] = analogRead(A1); // temp
+        variableValues[0] = map(analogRead(A0),800,200,0,100); // soul umidity
+        variableValues[1] = (((analogRead(A1)*5.0) / 1023.0) - 0.5) * 100; // temp con la conversione in gradi Celsius
         // variableValues[2] = analogRead(A2);
         // ...
 
