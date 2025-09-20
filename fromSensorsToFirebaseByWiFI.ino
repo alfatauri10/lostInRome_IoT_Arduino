@@ -18,12 +18,12 @@ void readSensors();
 
 
 // ====== IMPOSTAZIONI UTENTE ======
-//WIFI SCUOLA: DA CAMBIARE CON I DATI DEL WIFI UTILIZZATO
 #define WIFI_SSID "Galilei TEST"
 #define WIFI_PASSWORD "Coniglio21"
 
 
-
+//#define WIFI_SSID  "TIM-35780934"
+//#define WIFI_PASSWORD "3E5p6TYtDG3Zftk5qeb4HyXe"
 #define DATABASE_HOST "lostinrome-sensori-default-rtdb.firebaseio.com"
 
 
@@ -185,16 +185,18 @@ bool dbPut(String pathJson, String jsonBody) {
 
 void readSensors() {
  
- //temperatureC  = 20.0 + (random(0, 50) / 10.0);
+ //temperatureC  = 20.0 + (random(0, 50) / 10.0); //VALORE CABLATO PER TEST
  temperatureC = (((analogRead(A0)*5.0) / 1023.0) - 0.5) * 100;
 
 
- //humidity = 60.0 + (random(0, 30) / 10.0);
+ //humidity = 60.0 + (random(0, 30) / 10.0); //VALORE CABLATO PER TEST
  humidity = dht.readHumidity();
  
- //soil_moisture = 2000 + random(0, 100);
- soil_moisture = digitalRead(SOULDIGITALPIN);
- //int a = analogRead(SOULANALOGPIN);
+ //soil_moisture = 2000 + random(0, 100); //VALORE CABLATO PER TEST
+ //soil_moisture = digitalRead(SOULDIGITALPIN);
+ int umiditaGrezza = analogRead(SOULDIGITALPIN);
+ soil_moisture = map(umiditaGrezza,800,200,0,100); //valore percentuale
+ 
 
 
  Serial.println("Letture sensori:");
