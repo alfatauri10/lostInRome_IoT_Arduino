@@ -17,13 +17,15 @@ bool dbPut(String pathJson, String jsonBody);
 void readSensors();
 
 
-// ====== IMPOSTAZIONI UTENTE ======
+// ====== IMPOSTAZIONI WIFI ======
+//TODO: da modificare con i dati del WIFI che avremo al maker faire
 #define WIFI_SSID "Galilei TEST"
 #define WIFI_PASSWORD "Coniglio21"
 
-
 //#define WIFI_SSID  "TIM-35780934"
 //#define WIFI_PASSWORD "3E5p6TYtDG3Zftk5qeb4HyXe"
+
+
 #define DATABASE_HOST "lostinrome-sensori-default-rtdb.firebaseio.com"
 
 
@@ -185,5 +187,5 @@ void readSensors() {
 
   Serial.println("Letture sensori:");
   Serial.print("  T: "); Serial.println(temperatureC);
-  Serial.print("  Soi perc: "); Serial.println(soil_moisture);
+  Serial.print("  Soil perc: "); Serial.println(soil_moisture);
 }
