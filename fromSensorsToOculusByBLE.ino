@@ -9,6 +9,7 @@
 #include <ArduinoBLE.h> // ArduinoBLE library by Arduino
 #include <ArduinoJson.h> // ArduinoJson library by Benoit Blanchon
 
+
 // Constants for BLE communication
 #define MAX_FRAGMENT_SIZE 14  // DO NOT MODIFY: maximum limit of character otherwise the data sent could not be displayed correctly
 
@@ -22,9 +23,10 @@ const int NUM_SENSORS = 10; // DO NOT MODIFY: Unity expects precisely 10 variabl
 // Array to store sensor readings
 float variableValues[NUM_SENSORS] = {-9, -9, -9, -9, -9, -9, -9, -9, -9, -9}; // DO NOT MODIFY: Unity expects precisely 10 values
 
+
 // Names of the sensors. Customize these names based on your project, they will be the titles of each panel in the app. 
 const char* variableNames[NUM_SENSORS] = {
-  "soulUmidity", "temp", "name03", "name04", "name05",
+  "Umidita' Terreno (%)", "Temperatura (°C)", "name03", "name04", "name05",
   "name06", "name07", "name08", "name09", "name10"
 };
 
@@ -36,6 +38,10 @@ void setup() {
   // Initialize serial communication
   Serial.begin(9600);
   while (!Serial);
+
+  pinMode(8, INPUT);
+  pinMode(A0, INPUT);
+
 
   // Initialize BLE
   if (!BLE.begin()) {
@@ -72,10 +78,9 @@ void loop() {
         previousMillis = currentMillis;
 
         // Uncomment lines below to include your sensor readings
-        variableValues[0] = map(analogRead(A0),800,200,0,100); // soul umidity
+        variableValues[0] = ((analogRead(A0)/10.23)-100)*(-1); // soul umidity
         variableValues[1] = (((analogRead(A1)*5.0) / 1023.0) - 0.5) * 100; // temp con la conversione in gradi Celsius
-        // variableValues[2] = analogRead(A2);
-        // ...
+
 
         // Create a JSON object to hold sensor data
         StaticJsonDocument<512> doc;
