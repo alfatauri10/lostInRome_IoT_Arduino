@@ -27,12 +27,8 @@ void readSensors();
 #define DATABASE_HOST "lostinrome-sensori-default-rtdb.firebaseio.com"
 
 
-#define DHTPIN 2
-#define DHTTYPE DHT11
-DHT dht(2, DHT11);
-
-#define SOULANALOGPIN 8
-#define SOULDIGITALPIN A1
+#define SOILANALOGPIN A0
+#define SOILDIGITALPIN 8
 
 
 // ====== Client HTTPS + HttpClient verso il Realtime Database ======
@@ -42,18 +38,15 @@ HttpClient httpDB(ssl, DATABASE_HOST, 443);
 
 // ====== Valori sensori ======
 float temperatureC   = 0.0;
-float humidity       = 0.0;
 int   soil_moisture  = 0;
-
-
 
 
 void setup() {
  Serial.begin(115200);
- dht.begin();
+
  while (!Serial) { ; }
- //randomSeed(analogRead(A0));
-  pinMode(SOULDIGITALPIN, INPUT);
+  pinMode(SOILDIGITALPIN, INPUT);
+  pinMode(SOILANALOGPIN, INPUT);
 
 
  Serial.println("Connessione WiFi...");
@@ -85,7 +78,6 @@ void loop() {
  // Costruisci payload JSON da scrivere sul DB Firebase
  DynamicJsonDocument doc(512);
  doc["temperature"]   = temperatureC;
- doc["humidity"]      = humidity;
  doc["soil_moisture"] = soil_moisture;
 
 
@@ -180,33 +172,18 @@ bool dbPut(String pathJson, String jsonBody) {
 
 
 
-
-
-
 void readSensors() {
  
- //temperatureC  = 20.0 + (random(0, 50) / 10.0); //VALORE CABLATO PER TEST
- temperatureC = (((analogRead(A0)*5.0) / 1023.0) - 0.5) * 100;
+  //temperatureC  = 20.0 + (random(0, 50) / 10.0); //VALORE CABLATO PER TEST
+  temperatureC = ((((analogRead(A1)*5.0) / 1024.0) - 0.5) * 100);
+
+  //soil_moisture = 2000 + random(0, 100); //VALORE CABLATO PER TEST
+  //soil_moisture = ((500/10.23)-100)*(-1);
+  soil_moisture = ((analogRead(SOILANALOGPIN)/10.23)-100)*(-1);
 
 
- //humidity = 60.0 + (random(0, 30) / 10.0); //VALORE CABLATO PER TEST
- humidity = dht.readHumidity();
- 
- //soil_moisture = 2000 + random(0, 100); //VALORE CABLATO PER TEST
- //soil_moisture = digitalRead(SOULDIGITALPIN);
- int umiditaGrezza = analogRead(SOULDIGITALPIN);
- soil_moisture = map(umiditaGrezza,800,200,0,100); //valore percentuale
- 
 
-
- Serial.println("Letture sensori:");
- Serial.print("  T: "); Serial.println(temperatureC);
- Serial.print("  RH: "); Serial.println(humidity);
- Serial.print("  Soil: "); Serial.println(soil_moisture);
+  Serial.println("Letture sensori:");
+  Serial.print("  T: "); Serial.println(temperatureC);
+  Serial.print("  Soi perc: "); Serial.println(soil_moisture);
 }
-
-
-
-
-
-
